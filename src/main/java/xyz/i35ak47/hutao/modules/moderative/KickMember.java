@@ -82,7 +82,7 @@ public class KickMember extends Command {
                              * I'll get my sledgehammer xd, brazilian meme
                              */
                             String finalReason = reason;
-                            event.getGuild().ban(userWhoWillBeBanned, 0, reason).queue(
+                            event.getGuild().kick(userWhoWillBeBanned, reason).queue(
                             response -> {
                                 /*
                                  * Send ban message
