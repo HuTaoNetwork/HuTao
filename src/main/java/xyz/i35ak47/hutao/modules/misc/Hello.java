@@ -27,6 +27,6 @@ public class Hello extends Command {
 
     @Override
     public void sendMessage(MessageReceivedEvent event) {
-        event.getChannel().sendMessage(":ghost: | Hello, `" + event.getAuthor().getName() + "`!").queue();
+        event.getChannel().sendMessage(":ghost: | Hello, " + event.getAuthor().getAsMention() + "!").queue();
     }
 }
