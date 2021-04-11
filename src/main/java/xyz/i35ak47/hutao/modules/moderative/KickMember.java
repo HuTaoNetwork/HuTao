@@ -58,7 +58,7 @@ public class KickMember extends Command {
                              * Set member and embed var
                              */
                             EmbedBuilder embedBuilder = new EmbedBuilder();
-                            Member userWhoWillBeBanned = event.getMessage().getMentionedMembers().get(0);
+                            Member user = event.getMessage().getMentionedMembers().get(0);
 
                             /*
                              * Based on: https://github.com/VeloshGSIs/RequestBotJava/blob/master/src/main/java/org/velosh/requestbot/iqx/Bot.java#L80
@@ -82,13 +82,13 @@ public class KickMember extends Command {
                              * I'll get my sledgehammer xd, brazilian meme
                              */
                             String finalReason = reason;
-                            event.getGuild().kick(userWhoWillBeBanned, reason).queue(
+                            event.getGuild().kick(user, reason).queue(
                             response -> {
                                 /*
                                  * Send ban message
                                  */
                                 embedBuilder.setTitle(":hammer: | **Kick**");
-                                embedBuilder.addField(":thinking: | Kicked", userWhoWillBeBanned.getUser().getName(), false);
+                                embedBuilder.addField(":thinking: | Kicked", user.getUser().getName(), false);
                                 embedBuilder.addField(":oncoming_police_car: | Staff", event.getMember().getUser().getName(), false);
                                 embedBuilder.addField(":exclamation: | Reason", finalReason, false);
                                 embedBuilder.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
