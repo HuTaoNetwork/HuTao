@@ -48,7 +48,11 @@ public class KickMember extends Command {
                         || Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR)
                         || OverPower.isOp(event.getAuthor().getId())) {
                     if (msgComparableRaw.length >= 2 && msgComparableRaw[1].startsWith("<")) {
-                        if (event.getMessage().getMentionedMembers().get(0).getId().equals(PropUtil.getProp("developer"))) {
+                        if (event.getMessage().getMentionedMembers().get(0).getId().equals(event.getAuthor().getId())) {
+                            event.getChannel().sendMessage("Are you trying to kick yourself? This is bizarre!").queue();
+                        } else if (event.getMessage().getMentionedMembers().get(0).getId().equals(event.getJDA().getSelfUser().getId())) {
+                            event.getChannel().sendMessage("Well, that sounds weird to me, do you want me to kick myself? Oh my...").queue();
+                        } else if (event.getMessage().getMentionedMembers().get(0).getId().equals(PropUtil.getProp("developer"))) {
                             event.getChannel().sendMessage("Sorry " + event.getAuthor().getAsMention() + ", this user is my developer, I can't kick.").queue();
                         } else if (event.getMessage().getMentionedMembers().get(0).hasPermission(Permission.KICK_MEMBERS)
                                 || event.getMessage().getMentionedMembers().get(0).hasPermission(Permission.ADMINISTRATOR)) {

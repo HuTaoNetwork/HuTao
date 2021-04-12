@@ -48,7 +48,11 @@ public class BanMember extends Command {
                         || Objects.requireNonNull(event.getMember()).hasPermission(Permission.ADMINISTRATOR)
                         || OverPower.isOp(event.getAuthor().getId())) {
                     if (msgComparableRaw.length >= 2 && msgComparableRaw[1].startsWith("<")) {
-                        if (event.getMessage().getMentionedMembers().get(0).getId().equals(PropUtil.getProp("developer"))) {
+                        if (event.getMessage().getMentionedMembers().get(0).getId().equals(event.getAuthor().getId())) {
+                            event.getChannel().sendMessage("Are you trying to ban yourself? This is bizarre!").queue();
+                        } else if (event.getMessage().getMentionedMembers().get(0).getId().equals(event.getJDA().getSelfUser().getId())) {
+                            event.getChannel().sendMessage("Well, that sounds weird to me, do you want me to ban myself? Oh my...").queue();
+                        } else if (event.getMessage().getMentionedMembers().get(0).getId().equals(PropUtil.getProp("developer"))) {
                             event.getChannel().sendMessage("Sorry " + event.getAuthor().getAsMention() + ", this user is my developer, I can't ban.").queue();
                         } else if (event.getMessage().getMentionedMembers().get(0).hasPermission(Permission.BAN_MEMBERS)
                                 || event.getMessage().getMentionedMembers().get(0).hasPermission(Permission.ADMINISTRATOR)) {
