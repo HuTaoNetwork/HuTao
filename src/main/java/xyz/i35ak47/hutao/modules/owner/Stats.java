@@ -68,8 +68,8 @@ public class Stats extends Command {
              */
             embedBuilder.addField(":door: | Guilds Count", String.valueOf(event.getJDA().getGuilds().size()), true);
             embedBuilder.addField(":person_frowning: | Users Count", String.valueOf(usersCount), true);
-            embedBuilder.addField(":newspaper: | Text Channels Size", String.valueOf(event.getJDA().getTextChannels().size()), true);
-            embedBuilder.addField(":microphone2: | Voice Channels Size", String.valueOf(event.getJDA().getVoiceChannels().size()), true);
+            embedBuilder.addField(":newspaper: | Text Channels Count", String.valueOf(event.getJDA().getTextChannels().size()), true);
+            embedBuilder.addField(":microphone2: | Voice Channels Count", String.valueOf(event.getJDA().getVoiceChannels().size()), true);
             embedBuilder.addField(":recycle: | Shard", String.valueOf(event.getJDA().getShardInfo().getShardId()), false);
             embedBuilder.setFooter(event.getAuthor().getAsTag(), event.getAuthor().getAvatarUrl());
 
