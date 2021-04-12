@@ -17,10 +17,13 @@ package xyz.i35ak47.hutao.modules.owner;
  */
 
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Guild;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import xyz.i35ak47.hutao.modules.base.Command;
 import xyz.i35ak47.hutao.utils.PropUtil;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Stats extends Command {
@@ -52,10 +55,19 @@ public class Stats extends Command {
             embedBuilder.setColor(randomColor);
 
             /*
+             * Get user count
+             */
+            List<Guild> guilds = new ArrayList<>(event.getJDA().getGuilds());
+            int usersCount = 0;
+            for (Guild guild : guilds) {
+                usersCount = usersCount + guild.getMemberCount();
+            }
+
+            /*
              * Prepare embed
              */
             embedBuilder.addField(":door: | Guilds Count", String.valueOf(event.getJDA().getGuilds().size()), true);
-            embedBuilder.addField(":person_frowning: | Users Count", String.valueOf(event.getJDA().getUsers().size()), true);
+            embedBuilder.addField(":person_frowning: | Users Count", String.valueOf(usersCount), true);
             embedBuilder.addField(":newspaper: | Text Channels Size", String.valueOf(event.getJDA().getTextChannels().size()), true);
             embedBuilder.addField(":microphone2: | Voice Channels Size", String.valueOf(event.getJDA().getVoiceChannels().size()), true);
             embedBuilder.addField(":recycle: | Shard", String.valueOf(event.getJDA().getShardInfo().getShardId()), false);
