@@ -45,17 +45,22 @@ public class SetAvatar extends Command {
     @Override
     public void sendMessage(MessageReceivedEvent event) {
         String[] msgComparableRaw = event.getMessage().getContentRaw().toLowerCase().split(" ");
+        String urlBase = null;
+        boolean pass;
 
         if (OverPower.isOp(event.getAuthor().getId())) {
-            if (event.getMessage().getContentDisplay().contains(" ")) {
-                String urlBase;
+            if (!event.getMessage().getAttachments().isEmpty() && event.getMessage().getAttachments().get(0).isImage()) {
+                urlBase = event.getMessage().getAttachments().get(0).getUrl();
+                pass = true;
+            } else if (event.getMessage().getContentDisplay().contains(" ")) {
+                urlBase = msgComparableRaw[1];
+                pass = true;
+            } else {
+                event.getChannel().sendMessage("You can upload an image with the command caption, or use the image link.").queue();
+                pass = false;
+            }
 
-                if (!event.getMessage().getAttachments().isEmpty() && event.getMessage().getAttachments().get(0).isImage()) {
-                    urlBase = event.getMessage().getAttachments().get(0).getUrl();
-                } else {
-                    urlBase = msgComparableRaw[1];
-                }
-
+            if (pass) {
                 InputStream inputStream = ImageFromURL(urlBase);
                 if (inputStream == null) {
                     event.getChannel().sendMessage("Oops... **Invalid** URL! Check if it's correct.").queue();
@@ -68,8 +73,6 @@ public class SetAvatar extends Command {
                         logger.error(e.getMessage(), e);
                     }
                 }
-            } else {
-                event.getChannel().sendMessage("Sorry " + event.getAuthor().getAsMention() + ", can't change avatar due wrong usage.").queue();
             }
         } else {
             event.getChannel().sendMessage("Sorry " + event.getAuthor().getAsMention() + ", this command is limited to **developers**.").queue();
