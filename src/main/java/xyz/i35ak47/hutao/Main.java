@@ -33,6 +33,7 @@ import xyz.i35ak47.hutao.modules.info.ID;
 import xyz.i35ak47.hutao.modules.misc.Ping;
 import xyz.i35ak47.hutao.modules.moderative.BanMember;
 import xyz.i35ak47.hutao.modules.moderative.KickMember;
+import xyz.i35ak47.hutao.modules.moderative.TempBanMember;
 import xyz.i35ak47.hutao.modules.owner.*;
 import xyz.i35ak47.hutao.modules.info.ServerInfo;
 import xyz.i35ak47.hutao.utils.BotUtil;
@@ -154,6 +155,11 @@ public class Main extends ListenerAdapter implements EventListener {
             case "!ban":
                 logger.info("User " + event.getAuthor().getName() + " used the " + msgComparableRaw[0] + " command");
                 runMethod(BanMember.class, event);
+            break;
+
+            case "!tban":
+                logger.info("User " + event.getAuthor().getName() + " used the " + msgComparableRaw[0] + " command");
+                runMethod(TempBanMember.class, event);
             break;
 
             case "!kick":

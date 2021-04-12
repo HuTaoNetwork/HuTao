@@ -5,6 +5,7 @@
 ## Commands - Work In Progress (WIP)
 * !hello
 * !ban `mention` `reason` - The reason is optional
+* !tban `days` `mention` `reason` - The reason is optional
 * !kick `kick` `reason` - The reason is optional
 * !server - This command cannot be used on PM.
 * !eval `java command`
