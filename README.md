@@ -10,7 +10,7 @@
 * !server - This command cannot be used on PM.
 * !eval `java command`
 * !leave `guild id`
-* !setavatar `url link`
+* !setavatar `url link` or image attachment
 * !shell `bash command`
 * !stats `send JDA (guilds and others) info of bot`
 * !id `mention` - The mention is optional
