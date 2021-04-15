@@ -107,7 +107,9 @@ public class Main extends ListenerAdapter implements EventListener {
                     final Class<?> clasz = info.load();
                     try {
                         if (!clasz.getName().contains("base.Command")) logger.info("Detected module: " + clasz.getName().replace("xyz.i35ak47.", ""));
-                    } catch (Exception ignored) {}
+                    } catch (Exception exception) {
+                        logger.error(exception.getMessage(), exception);
+                    }
                 }
             }
         } catch (IOException ignored) {}
