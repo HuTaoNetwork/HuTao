@@ -19,9 +19,7 @@ package xyz.i35ak47.hutao.utils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Properties;
 
 public class PropUtil {
@@ -63,12 +61,22 @@ public class PropUtil {
     }
 
     public static String getProp(String prop) {
+        FileInputStream fileInputStream = null;
         try {
             Properties getProps = new Properties();
-            getProps.load(new FileInputStream("configs/config.prop"));
+            fileInputStream = new FileInputStream("configs/config.prop");
+            getProps.load(fileInputStream);
             return getProps.getProperty(prop);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+        } finally {
+            if (fileInputStream != null) {
+                try {
+                    fileInputStream.close();
+                } catch (IOException ioException) {
+                    logger.error(ioException.getMessage(), ioException);
+                }
+            }
         }
         return null;
     }
