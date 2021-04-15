@@ -23,10 +23,10 @@ public class BotUtil {
     public String token;
 
     public BotUtil(String token) throws BotTokenDoesNotExist {
-        if (token.length() > 0) {
-            this.token = token;
+        if (!(token.length() >= 59)) {
+            throw new BotTokenDoesNotExist("The bot token usually has a length greater than or equal to 59 characters");
         } else {
-            throw new BotTokenDoesNotExist("Bot token does not exist, check if it is correct");
+            this.token = token;
         }
     }
 
