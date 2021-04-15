@@ -23,6 +23,8 @@ package xyz.i35ak47.hutao.modules.owner;
 
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.i35ak47.hutao.modules.base.Command;
 import xyz.i35ak47.hutao.utils.PropUtil;
 
@@ -30,6 +32,8 @@ import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 
 public class Eval extends Command {
+
+    private static final Logger logger = LoggerFactory.getLogger(Eval.class);
 
     public Eval() {
         super("eval");
@@ -86,8 +90,9 @@ public class Eval extends Command {
                                 "})();"
                 );
                 event.getChannel().sendMessage(out == null ? ":white_check_mark: | Executed without error." : out.toString()).queue();
-            } catch (Exception e1) {
-                event.getChannel().sendMessage(":exclamation: | `" + e1.getMessage() + "`").queue();
+            } catch (Exception exception) {
+                event.getChannel().sendMessage(":exclamation: | `" + exception.getMessage() + "`").queue();
+                logger.error(exception.getMessage());
             }
         }
     }
