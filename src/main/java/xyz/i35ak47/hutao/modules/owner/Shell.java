@@ -77,13 +77,6 @@ public class Shell extends Command {
                             baseMessage.append(":page_facing_up: | `").append(line).append("`").append("\n");
                             if (!(baseMessage.length() > 2000)) response.editMessageFormat(String.valueOf(baseMessage)).queue();
                         }
-
-                        /*
-                         * Close stream, due 'lack' of memory
-                         */
-                        inputStream.close();
-                        inputStreamReader.close();
-                        bufferedReader.close();
                     } catch (Exception exception) {
                         logger.error(exception.getMessage(), exception);
                     } finally {
