@@ -35,13 +35,12 @@ public class LeaveGuild extends Command {
 
         if (event.getAuthor().getId().equals(PropUtil.getProp("developer"))) {
             if (event.getMessage().getContentDisplay().contains(" ")) {
-                try {
-                    Guild guild = event.getJDA().getGuildById(msgComparableRaw[1]);
-                    String guildName = Objects.requireNonNull(guild).getName();
-                    guild.leave().queue(response -> event.getChannel().sendMessage("Done! I left the server: " + guildName).queue());
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                Guild guild = event.getJDA().getGuildById(msgComparableRaw[1]);
+                String guildName = Objects.requireNonNull(guild).getName();
+                guild.leave().queue(
+                        response -> event.getChannel().sendMessage("Done! I left the server: `" + guildName + "`").queue(),
+                        error -> event.getChannel().sendMessage("Bip bop... Failed to leave a guild, it probably doesn't exist but if not, here is the error:\n`" + error.getMessage() + "`").queue()
+                );
             } else {
                 event.getChannel().sendMessage("Sorry " + event.getAuthor().getAsMention() + ", can't leave due wrong usage.").queue();
             }
