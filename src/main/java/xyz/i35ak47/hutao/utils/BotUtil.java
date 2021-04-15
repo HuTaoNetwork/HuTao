@@ -16,11 +16,18 @@ package xyz.i35ak47.hutao.utils;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import xyz.i35ak47.hutao.exceptions.BotTokenDoesNotExist;
+
 public class BotUtil {
+
     public String token;
 
-    public BotUtil(String token) {
-        this.token = token;
+    public BotUtil(String token) throws BotTokenDoesNotExist {
+        if (token.length() > 0) {
+            this.token = token;
+        } else {
+            throw new BotTokenDoesNotExist("Bot token does not exist, check if it is correct");
+        }
     }
 
     public String getToken() {
