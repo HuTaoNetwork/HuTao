@@ -38,7 +38,7 @@ public class OverPower extends Command {
 
     @Override
     public void sendMessage(MessageReceivedEvent event) {
-        String[] msgComparableRaw = event.getMessage().getContentRaw().toLowerCase().split(" ");
+        String[] msgComparableRaw = event.getMessage().getContentRaw().split(" ");
 
         if (event.getAuthor().getId().equals(PropUtil.getProp("developer"))) {
             if (event.getMessage().getContentDisplay().contains(" ")) {

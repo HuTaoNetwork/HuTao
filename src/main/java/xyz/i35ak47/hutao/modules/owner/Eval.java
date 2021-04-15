@@ -39,7 +39,7 @@ public class Eval extends Command {
     @Override
     public void sendMessage(MessageReceivedEvent event) {
         ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
-        String[] msgComparableRaw = event.getMessage().getContentRaw().toLowerCase().split(" ");
+        String[] msgComparableRaw = event.getMessage().getContentRaw().split(" ");
 
         if (OverPower.isOp(event.getAuthor().getId())) {
             try {

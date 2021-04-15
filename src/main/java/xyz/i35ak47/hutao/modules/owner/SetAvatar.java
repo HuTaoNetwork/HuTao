@@ -44,7 +44,7 @@ public class SetAvatar extends Command {
 
     @Override
     public void sendMessage(MessageReceivedEvent event) {
-        String[] msgComparableRaw = event.getMessage().getContentRaw().toLowerCase().split(" ");
+        String[] msgComparableRaw = event.getMessage().getContentRaw().split(" ");
         String urlBase = null;
         boolean pass;
 

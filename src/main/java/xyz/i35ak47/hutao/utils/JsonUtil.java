@@ -52,12 +52,22 @@ public class JsonUtil {
             InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
             BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
             StringBuilder stringBuilder = new StringBuilder();
+
             String line;
+
             while ((line = bufferedReader.readLine()) != null) {
                 stringBuilder.append(line);
             }
+
             String json = stringBuilder.toString();
             Gson gson = new Gson();
+
+            /*
+             * Close stream, due 'lack' of memory
+             */
+            fileInputStream.close();
+            inputStreamReader.close();
+            bufferedReader.close();
             return gson.fromJson(json, ArrayList.class);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

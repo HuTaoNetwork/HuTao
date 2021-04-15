@@ -116,7 +116,7 @@ public class Main extends ListenerAdapter implements EventListener {
     @SuppressWarnings("SpellCheckingInspection")
     @Override
     public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-        String[] msgComparableRaw = event.getMessage().getContentRaw().toLowerCase().split(" ");
+        String[] msgComparableRaw = event.getMessage().getContentRaw().split(" ");
 
         switch (msgComparableRaw[0]) {
             case "!evox":
@@ -222,6 +222,8 @@ public class Main extends ListenerAdapter implements EventListener {
             Object instance = ((Class<?>) aClass).getDeclaredConstructor().newInstance();
             Method method = ((Class<?>) aClass).getDeclaredMethod("sendMessage", MessageReceivedEvent.class);
             method.invoke(instance, event);
-        } catch (Exception ignored) {}
+        } catch (Exception exception) {
+            logger.error("Maybe the class: " + aClass.getName() + " don't have MessageReceivedEvent() arg in it's sendMessage() method");
+        }
     }
 }

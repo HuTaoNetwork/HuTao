@@ -68,6 +68,12 @@ public class Shell extends Command {
                             baseMessage.append(":page_facing_up: | `").append(line).append("`").append("\n");
                             if (!(baseMessage.length() > 2000)) response.editMessageFormat(String.valueOf(baseMessage)).queue();
                         }
+
+                        /*
+                         * Close stream, due 'lack' of memory
+                         */
+                        bufferedReader.close();
+                        inputStream.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -85,12 +91,23 @@ public class Shell extends Command {
             pb = new ProcessBuilder("/bin/bash", "-c", command);
             pb.redirectErrorStream(true);
             Process process = pb.start();
-            InputStream is = process.getInputStream();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(is));
+
+            InputStream inputStream = process.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+
             String line;
-            while ((line = reader.readLine()) != null) {
+
+            while ((line = bufferedReader.readLine()) != null) {
                 baseCommand.append(line);
             }
+
+            /*
+             * Close stream, due 'lack' of memory
+             */
+            inputStream.close();
+            inputStreamReader.close();
+            bufferedReader.close();
             return String.valueOf(baseCommand);
         } catch (Exception ignored) {}
         return null;

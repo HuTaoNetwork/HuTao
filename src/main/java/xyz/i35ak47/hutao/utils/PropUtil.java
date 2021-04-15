@@ -44,7 +44,9 @@ public class PropUtil {
              */
             saveProps.setProperty("token", "");
             saveProps.setProperty("developer", "");
-            saveProps.store(new FileOutputStream("configs/config.prop"), "");
+            FileOutputStream fileOutputStream = new FileOutputStream("configs/config.prop");
+            saveProps.store(fileOutputStream, null);
+            fileOutputStream.close();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
         }

@@ -60,7 +60,8 @@ public class StatiXOS extends Command {
                     connection.connect();
 
                     StringBuilder stringBuilder = new StringBuilder();
-                    BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                    InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
+                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
                     logger.info("Response Code: " + connection.getResponseCode());
 
@@ -69,7 +70,12 @@ public class StatiXOS extends Command {
                     while ((jsonResponse = bufferedReader.readLine()) != null) {
                         stringBuilder.append(jsonResponse).append("\n");
                     }
+
+                    /*
+                     * Close stream, due 'lack' of memory
+                     */
                     bufferedReader.close();
+                    inputStreamReader.close();
 
                     if (connection.getResponseCode() == 200) {
                         /*
