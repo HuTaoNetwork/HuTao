@@ -58,7 +58,8 @@ public class Shell extends Command {
                          * Input/Output base
                          */
                         InputStream inputStream = process.getInputStream();
-                        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream));
+                        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+                        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
                         String line;
 
                         /*
@@ -72,8 +73,9 @@ public class Shell extends Command {
                         /*
                          * Close stream, due 'lack' of memory
                          */
-                        bufferedReader.close();
                         inputStream.close();
+                        inputStreamReader.close();
+                        bufferedReader.close();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

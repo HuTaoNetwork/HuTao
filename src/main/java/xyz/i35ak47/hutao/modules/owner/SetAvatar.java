@@ -69,6 +69,7 @@ public class SetAvatar extends Command {
                         event.getJDA().getSelfUser().getManager().setAvatar(Icon.from(inputStream)).queue(
                                 response -> event.getChannel().sendMessage("Done! Photo changed successfully.").queue(),
                                 error -> event.getChannel().sendMessage("Something is wrong! Error:\n`" + error.getMessage() + "`").queue());
+                        inputStream.close();
                     } catch (IOException e) {
                         logger.error(e.getMessage(), e);
                     }
