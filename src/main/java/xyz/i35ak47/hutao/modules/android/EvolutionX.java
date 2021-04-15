@@ -53,6 +53,8 @@ public class EvolutionX extends Command {
 
         if (event.getMessage().getContentRaw().contains(" ")) {
             event.getChannel().sendMessage("Wait...").queue(response -> {
+                InputStreamReader inputStreamReader = null;
+                BufferedReader bufferedReader = null;
                 try {
                     URL urlBase = new URL("https://raw.githubusercontent.com/Evolution-X-Devices/official_devices/master/builds/" + msgComparableRaw[1] + ".json");
                     HttpURLConnection connection = (HttpURLConnection) urlBase.openConnection();
@@ -60,8 +62,8 @@ public class EvolutionX extends Command {
                     connection.connect();
 
                     StringBuilder stringBuilder = new StringBuilder();
-                    InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    inputStreamReader = new InputStreamReader(connection.getInputStream());
+                    bufferedReader = new BufferedReader(inputStreamReader);
 
                     logger.info("Response Code: " + connection.getResponseCode());
 
@@ -70,12 +72,6 @@ public class EvolutionX extends Command {
                     while ((jsonResponse = bufferedReader.readLine()) != null) {
                         stringBuilder.append(jsonResponse).append("\n");
                     }
-
-                    /*
-                     * Close stream, due 'lack' of memory
-                     */
-                    bufferedReader.close();
-                    inputStreamReader.close();
 
                     if (connection.getResponseCode() == 200) {
                         /*
@@ -123,6 +119,18 @@ public class EvolutionX extends Command {
                 } catch (IOException ioException) {
                     response.editMessage("Oops... Failed, maybe the device don't exists in EvoX's gist.").queue();
                     logger.error(msgComparableRaw[1] + " <- This codename may not exist in the official EvoX's gist.");
+                } finally {
+                    if (inputStreamReader != null && bufferedReader != null) {
+                        try {
+                            /*
+                             * Close stream, due 'lack' of memory
+                             */
+                            bufferedReader.close();
+                            inputStreamReader.close();
+                        } catch (IOException ioException) {
+                            logger.error(ioException.getMessage(), ioException);
+                        }
+                    }
                 }
             });
         } else {

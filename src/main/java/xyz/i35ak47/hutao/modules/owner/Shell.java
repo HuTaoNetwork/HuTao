@@ -17,15 +17,20 @@ package xyz.i35ak47.hutao.modules.owner;
  */
 
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xyz.i35ak47.hutao.modules.base.Command;
 import xyz.i35ak47.hutao.utils.PropUtil;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
 @SuppressWarnings("SpellCheckingInspection")
 public class Shell extends Command {
+
+    private static final Logger logger = LoggerFactory.getLogger(Shell.class);
 
     public Shell() {
         super("shell");
@@ -45,6 +50,9 @@ public class Shell extends Command {
                  * Send message with live output
                  */
                 event.getChannel().sendMessage(baseMessage).queue(response -> {
+                    InputStream inputStream = null;
+                    InputStreamReader inputStreamReader = null;
+                    BufferedReader bufferedReader = null;
                     try {
                         /*
                          * Process base
@@ -55,11 +63,11 @@ public class Shell extends Command {
                         Process process = processBuilder.start();
 
                         /*
-                         * Input/Output base
+                         * Stream base
                          */
-                        InputStream inputStream = process.getInputStream();
-                        InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                        BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                        inputStream = process.getInputStream();
+                        inputStreamReader = new InputStreamReader(inputStream);
+                        bufferedReader = new BufferedReader(inputStreamReader);
                         String line;
 
                         /*
@@ -76,8 +84,21 @@ public class Shell extends Command {
                         inputStream.close();
                         inputStreamReader.close();
                         bufferedReader.close();
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    } catch (Exception exception) {
+                        logger.error(exception.getMessage(), exception);
+                    } finally {
+                        if (inputStream != null && inputStreamReader != null && bufferedReader != null) {
+                            try {
+                                /*
+                                 * Close stream, due 'lack' of memory
+                                 */
+                                inputStream.close();
+                                inputStreamReader.close();
+                                bufferedReader.close();
+                            } catch (IOException ioException) {
+                                logger.error(ioException.getMessage(), ioException);
+                            }
+                        }
                     }
                 });
             }
@@ -88,30 +109,47 @@ public class Shell extends Command {
 
     public static String runBash(String command) {
         StringBuilder baseCommand = new StringBuilder();
+        InputStream inputStream = null;
+        InputStreamReader inputStreamReader = null;
+        BufferedReader bufferedReader = null;
         try {
+            /*
+             * Process base
+             */
             ProcessBuilder pb;
             pb = new ProcessBuilder("/bin/bash", "-c", command);
             pb.redirectErrorStream(true);
             Process process = pb.start();
 
-            InputStream inputStream = process.getInputStream();
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            /*
+             * Stream base
+             */
+            inputStream = process.getInputStream();
+            inputStreamReader = new InputStreamReader(inputStream);
+            bufferedReader = new BufferedReader(inputStreamReader);
 
             String line;
 
             while ((line = bufferedReader.readLine()) != null) {
                 baseCommand.append(line);
             }
-
-            /*
-             * Close stream, due 'lack' of memory
-             */
-            inputStream.close();
-            inputStreamReader.close();
-            bufferedReader.close();
             return String.valueOf(baseCommand);
-        } catch (Exception ignored) {}
+        } catch (Exception exception) {
+            logger.error(exception.getMessage(), exception);
+        } finally {
+            if (inputStream != null && inputStreamReader != null && bufferedReader != null) {
+                try {
+                    /*
+                     * Close stream, due 'lack' of memory
+                     */
+                    inputStream.close();
+                    inputStreamReader.close();
+                    bufferedReader.close();
+                } catch (IOException ioException) {
+                    logger.error(ioException.getMessage(), ioException);
+                }
+            }
+        }
         return null;
     }
 }

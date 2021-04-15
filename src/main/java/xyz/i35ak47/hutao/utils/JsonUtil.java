@@ -37,21 +37,35 @@ public class JsonUtil {
 
     public static void writeArrayToJSON(ArrayList<String> values, String file) {
         Gson gson = new Gson();
+        FileOutputStream fileOutputStream = null;
         try {
-            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(gson.toJson(values).getBytes());
-            fileOutputStream.flush();
-            fileOutputStream.close();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+        } finally {
+            if (fileOutputStream != null) {
+                try {
+                    /*
+                     * Close stream, due 'lack' of memory
+                     */
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                } catch (IOException ioException) {
+                    logger.error(ioException.getMessage(), ioException);
+                }
+            }
         }
     }
 
     public static ArrayList getArrayFromJSON(String file) {
+        FileInputStream fileInputStream = null;
+        InputStreamReader inputStreamReader = null;
+        BufferedReader bufferedReader = null;
         try {
-            FileInputStream fileInputStream = new FileInputStream(file);
-            InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream);
-            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            fileInputStream = new FileInputStream(file);
+            inputStreamReader = new InputStreamReader(fileInputStream);
+            bufferedReader = new BufferedReader(inputStreamReader);
             StringBuilder stringBuilder = new StringBuilder();
 
             String line;
@@ -62,17 +76,23 @@ public class JsonUtil {
 
             String json = stringBuilder.toString();
             Gson gson = new Gson();
-
-            /*
-             * Close stream, due 'lack' of memory
-             */
-            fileInputStream.close();
-            inputStreamReader.close();
-            bufferedReader.close();
             return gson.fromJson(json, ArrayList.class);
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
             return null;
+        } finally {
+            if (fileInputStream != null && inputStreamReader != null && bufferedReader != null) {
+                try {
+                    /*
+                     * Close stream, due 'lack' of memory
+                     */
+                    fileInputStream.close();
+                    inputStreamReader.close();
+                    bufferedReader.close();
+                } catch (IOException ioException) {
+                    logger.error(ioException.getMessage(), ioException);
+                }
+            }
         }
     }
 

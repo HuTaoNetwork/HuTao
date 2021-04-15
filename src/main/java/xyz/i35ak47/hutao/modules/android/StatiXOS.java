@@ -53,6 +53,8 @@ public class StatiXOS extends Command {
 
         if (event.getMessage().getContentRaw().contains(" ")) {
             event.getChannel().sendMessage("Wait...").queue(response -> {
+                InputStreamReader inputStreamReader = null;
+                BufferedReader bufferedReader = null;
                 try {
                     URL urlBase = new URL("https://downloads.statixos.com/json/" + msgComparableRaw[1] + ".json");
                     HttpURLConnection connection = (HttpURLConnection) urlBase.openConnection();
@@ -60,8 +62,8 @@ public class StatiXOS extends Command {
                     connection.connect();
 
                     StringBuilder stringBuilder = new StringBuilder();
-                    InputStreamReader inputStreamReader = new InputStreamReader(connection.getInputStream());
-                    BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+                    inputStreamReader = new InputStreamReader(connection.getInputStream());
+                    bufferedReader = new BufferedReader(inputStreamReader);
 
                     logger.info("Response Code: " + connection.getResponseCode());
 
@@ -70,12 +72,6 @@ public class StatiXOS extends Command {
                     while ((jsonResponse = bufferedReader.readLine()) != null) {
                         stringBuilder.append(jsonResponse).append("\n");
                     }
-
-                    /*
-                     * Close stream, due 'lack' of memory
-                     */
-                    bufferedReader.close();
-                    inputStreamReader.close();
 
                     if (connection.getResponseCode() == 200) {
                         /*
@@ -121,6 +117,18 @@ public class StatiXOS extends Command {
                 } catch (IOException ioException) {
                     response.editMessage("This device may not officially exist on the StatiXOS download site, please contact a maintainer.").queue();
                     logger.error(msgComparableRaw[1] + " <- This codename may not exist in the official StatiXOS download site");
+                } finally {
+                    if (inputStreamReader != null && bufferedReader != null) {
+                        try {
+                            /*
+                             * Close stream, due 'lack' of memory
+                             */
+                            bufferedReader.close();
+                            inputStreamReader.close();
+                        } catch (IOException ioException) {
+                            logger.error(ioException.getMessage(), ioException);
+                        }
+                    }
                 }
             });
         } else {

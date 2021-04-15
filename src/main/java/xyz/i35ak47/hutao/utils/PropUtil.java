@@ -21,6 +21,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Properties;
 
 public class PropUtil {
@@ -28,6 +29,7 @@ public class PropUtil {
     private static final Logger logger = LoggerFactory.getLogger(PropUtil.class);
 
     public void createDefConfig() {
+        FileOutputStream fileOutputStream = null;
         try {
             /*
              * Create Properties obj
@@ -44,12 +46,19 @@ public class PropUtil {
              */
             saveProps.setProperty("token", "");
             saveProps.setProperty("developer", "");
-            FileOutputStream fileOutputStream = new FileOutputStream("configs/config.prop");
+            fileOutputStream = new FileOutputStream("configs/config.prop");
             saveProps.store(fileOutputStream, null);
-            fileOutputStream.flush();
-            fileOutputStream.close();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
+        } finally {
+            if (fileOutputStream != null) {
+                try {
+                    fileOutputStream.flush();
+                    fileOutputStream.close();
+                } catch (IOException ioException) {
+                    logger.error(ioException.getMessage(), ioException);
+                }
+            }
         }
     }
 
