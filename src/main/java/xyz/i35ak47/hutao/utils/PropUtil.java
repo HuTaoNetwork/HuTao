@@ -46,6 +46,7 @@ public class PropUtil {
             saveProps.setProperty("developer", "");
             FileOutputStream fileOutputStream = new FileOutputStream("configs/config.prop");
             saveProps.store(fileOutputStream, null);
+            fileOutputStream.flush();
             fileOutputStream.close();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);

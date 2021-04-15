@@ -40,6 +40,7 @@ public class JsonUtil {
         try {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             fileOutputStream.write(gson.toJson(values).getBytes());
+            fileOutputStream.flush();
             fileOutputStream.close();
         } catch (Exception e) {
             logger.error(e.getMessage(), e);
