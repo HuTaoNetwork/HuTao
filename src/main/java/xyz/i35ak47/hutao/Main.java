@@ -27,6 +27,8 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
+import xyz.i35ak47.hutao.modules.android.EvolutionX;
+import xyz.i35ak47.hutao.modules.android.StatiXOS;
 import xyz.i35ak47.hutao.modules.fun.Echo;
 import xyz.i35ak47.hutao.modules.misc.Hello;
 import xyz.i35ak47.hutao.modules.info.ID;
@@ -117,6 +119,16 @@ public class Main extends ListenerAdapter implements EventListener {
         String[] msgComparableRaw = event.getMessage().getContentRaw().toLowerCase().split(" ");
 
         switch (msgComparableRaw[0]) {
+            case "!evox":
+                logger.info("User " + event.getAuthor().getName() + " used the " + msgComparableRaw[0] + " command");
+                runMethod(EvolutionX.class, event);
+            break;
+
+            case "!sxos":
+                logger.info("User " + event.getAuthor().getName() + " used the " + msgComparableRaw[0] + " command");
+                runMethod(StatiXOS.class, event);
+            break;
+
             case "!ping":
                 logger.info("User " + event.getAuthor().getName() + " used the " + msgComparableRaw[0] + " command");
                 runMethod(Ping.class, event);

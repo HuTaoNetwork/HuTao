@@ -23,6 +23,7 @@ package xyz.i35ak47.hutao.utils;
 import com.google.gson.Gson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.json.JSONObject;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -60,5 +61,29 @@ public class JsonUtil {
             logger.error(e.getMessage(), e);
             return null;
         }
+    }
+
+    /*
+     * Lazy methods
+     */
+
+    public static String getValueFromJSON(String json, String value) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getString(value);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage(), exception);
+        }
+        return null;
+    }
+
+    public static long getLongFromJSON(String json, String value) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            return jsonObject.getLong(value);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage(), exception);
+        }
+        return 0;
     }
 }
