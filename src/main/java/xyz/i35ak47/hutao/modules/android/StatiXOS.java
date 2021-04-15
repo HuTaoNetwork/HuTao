@@ -18,11 +18,10 @@ package xyz.i35ak47.hutao.modules.android;
 
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import xyz.i35ak47.hutao.modules.base.Command;
+import xyz.i35ak47.hutao.utils.JsonUtil;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -79,16 +78,10 @@ public class StatiXOS extends Command {
                         response.delete().queue();
 
                         /*
-                         * Set json(Object|Array) var
-                         */
-                        JSONObject jsonObject = new JSONObject(String.valueOf(stringBuilder));
-                        JSONArray jsonArray = jsonObject.getJSONArray("response");
-
-                        /*
                          * Timestamp and EmbedBuilder var
                          */
                         EmbedBuilder embedBuilder = new EmbedBuilder();
-                        Timestamp timestamp = new Timestamp(jsonArray.getJSONObject(0).getLong("datetime"));
+                        Timestamp timestamp = new Timestamp(JsonUtil.getLongOfArrayFromJSONObject(String.valueOf(stringBuilder), "response", "datetime"));
 
                         /*
                          * Random color setup
@@ -105,11 +98,11 @@ public class StatiXOS extends Command {
                         embedBuilder.setFooter("StatiXOS", "https://avatars.githubusercontent.com/u/36259882?s=200&v=4");
 
                         embedBuilder.addField(":date: | Build Date", String.valueOf(timestamp), false);
-                        embedBuilder.addField(":round_pushpin: | Version", jsonArray.getJSONObject(0).getString("version"), false);
-                        embedBuilder.addField(":page_facing_up: | File Name", jsonArray.getJSONObject(0).getString("filename"), false);
-                        embedBuilder.addField(":interrobang: | ROM Type", jsonArray.getJSONObject(0).getString("romtype"), false);
-                        embedBuilder.addField(":paperclips: | ID", jsonArray.getJSONObject(0).getString("id"), false);
-                        embedBuilder.addField(":link: | URL", jsonArray.getJSONObject(0).getString("url"), false);
+                        embedBuilder.addField(":round_pushpin: | Version", JsonUtil.getValueOfArrayFromJSONObject(String.valueOf(stringBuilder), "response", "version"), false);
+                        embedBuilder.addField(":page_facing_up: | File Name", JsonUtil.getValueOfArrayFromJSONObject(String.valueOf(stringBuilder), "response", "filename"), false);
+                        embedBuilder.addField(":interrobang: | ROM Type", JsonUtil.getValueOfArrayFromJSONObject(String.valueOf(stringBuilder), "response", "romtype"), false);
+                        embedBuilder.addField(":paperclips: | ID", JsonUtil.getValueOfArrayFromJSONObject(String.valueOf(stringBuilder), "response", "id"), false);
+                        embedBuilder.addField(":link: | URL", JsonUtil.getValueOfArrayFromJSONObject(String.valueOf(stringBuilder), "response", "url"), false);
                         embedBuilder.setColor(randomColor);
 
                         /*

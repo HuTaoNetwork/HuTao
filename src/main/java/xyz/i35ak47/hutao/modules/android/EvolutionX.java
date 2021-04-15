@@ -81,7 +81,7 @@ public class EvolutionX extends Command {
                          * Timestamp, Date and EmbedBuilder var
                          */
                         EmbedBuilder embedBuilder = new EmbedBuilder();
-                        Timestamp timestamp = new Timestamp(JsonUtil.getLongFromJSON(String.valueOf(stringBuilder), "datetime"));
+                        Timestamp timestamp = new Timestamp(JsonUtil.getLongFromJSONObject(String.valueOf(stringBuilder), "datetime"));
 
                         /*
                          * Random color setup
@@ -98,13 +98,13 @@ public class EvolutionX extends Command {
                         embedBuilder.setFooter("Evolution X", "https://evolution-x.org/static/img/logo.png");
 
                         embedBuilder.addField(":date: | Build Date", String.valueOf(timestamp), false);
-                        embedBuilder.addField(":closed_lock_with_key: | File Hash", JsonUtil.getValueFromJSON(String.valueOf(stringBuilder), "filehash"), false);
-                        embedBuilder.addField(":page_facing_up: | File Name", JsonUtil.getValueFromJSON(String.valueOf(stringBuilder), "filename"), false);
-                        embedBuilder.addField(":bookmark: | Forum", JsonUtil.getValueFromJSON(String.valueOf(stringBuilder), "forum_url"), false);
-                        embedBuilder.addField(":paperclips: | ID", JsonUtil.getValueFromJSON(String.valueOf(stringBuilder), "id"), false);
-                        embedBuilder.addField(":diamond_shape_with_a_dot_inside: | Maintainer", JsonUtil.getValueFromJSON(String.valueOf(stringBuilder), "maintainer"), false);
-                        embedBuilder.addField(":link: | URL", JsonUtil.getValueFromJSON(String.valueOf(stringBuilder), "url"), false);
-                        embedBuilder.addField(":dollar: | Donate to maintainer", JsonUtil.getValueFromJSON(String.valueOf(stringBuilder), "donate_url"), false);
+                        embedBuilder.addField(":closed_lock_with_key: | File Hash", JsonUtil.getValueFromJSONObject(String.valueOf(stringBuilder), "filehash"), false);
+                        embedBuilder.addField(":page_facing_up: | File Name", JsonUtil.getValueFromJSONObject(String.valueOf(stringBuilder), "filename"), false);
+                        embedBuilder.addField(":bookmark: | Forum", JsonUtil.getValueFromJSONObject(String.valueOf(stringBuilder), "forum_url"), false);
+                        embedBuilder.addField(":paperclips: | ID", JsonUtil.getValueFromJSONObject(String.valueOf(stringBuilder), "id"), false);
+                        embedBuilder.addField(":diamond_shape_with_a_dot_inside: | Maintainer", JsonUtil.getValueFromJSONObject(String.valueOf(stringBuilder), "maintainer"), false);
+                        embedBuilder.addField(":link: | URL", JsonUtil.getValueFromJSONObject(String.valueOf(stringBuilder), "url"), false);
+                        embedBuilder.addField(":dollar: | Donate to maintainer", JsonUtil.getValueFromJSONObject(String.valueOf(stringBuilder), "donate_url"), false);
                         embedBuilder.setColor(randomColor);
 
                         /*

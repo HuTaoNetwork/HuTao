@@ -20,7 +20,9 @@ package xyz.i35ak47.hutao.utils;
  * Based on Vega's Bot3 base, I'm lazy to make my own.
  */
 
+import com.google.common.annotations.Beta;
 import com.google.gson.Gson;
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.json.JSONObject;
@@ -67,7 +69,7 @@ public class JsonUtil {
      * Lazy methods
      */
 
-    public static String getValueFromJSON(String json, String value) {
+    public static String getValueFromJSONObject(String json, String value) {
         try {
             JSONObject jsonObject = new JSONObject(json);
             return jsonObject.getString(value);
@@ -77,7 +79,31 @@ public class JsonUtil {
         return null;
     }
 
-    public static long getLongFromJSON(String json, String value) {
+    @Beta
+    public static String getValueOfArrayFromJSONObject(String json, String array, String value) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray jsonArray = jsonObject.getJSONArray(array);
+            return jsonArray.getJSONObject(0).getString(value);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage(), exception);
+        }
+        return null;
+    }
+
+    @Beta
+    public static long getLongOfArrayFromJSONObject(String json, String array, String value) {
+        try {
+            JSONObject jsonObject = new JSONObject(json);
+            JSONArray jsonArray = jsonObject.getJSONArray(array);
+            return jsonArray.getJSONObject(0).getLong(value);
+        } catch (Exception exception) {
+            logger.error(exception.getMessage(), exception);
+        }
+        return 0;
+    }
+
+    public static long getLongFromJSONObject(String json, String value) {
         try {
             JSONObject jsonObject = new JSONObject(json);
             return jsonObject.getLong(value);
