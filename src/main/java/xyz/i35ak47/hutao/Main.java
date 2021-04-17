@@ -27,7 +27,7 @@ import net.dv8tion.jda.api.requests.GatewayIntent;
 import net.dv8tion.jda.api.utils.cache.CacheFlag;
 import org.jetbrains.annotations.NotNull;
 import org.slf4j.LoggerFactory;
-import xyz.i35ak47.hutao.exceptions.BotTokenDoesNotExist;
+import xyz.i35ak47.hutao.exceptions.BotTokenException;
 import xyz.i35ak47.hutao.modules.android.EvolutionX;
 import xyz.i35ak47.hutao.modules.android.StatiXOS;
 import xyz.i35ak47.hutao.modules.fun.Echo;
@@ -75,8 +75,8 @@ public class Main extends ListenerAdapter implements EventListener {
          */
         try {
             botUtil = new BotUtil(Objects.requireNonNull(PropUtil.getProp("token")));
-        } catch (BotTokenDoesNotExist botTokenDoesNotExist) {
-            logger.error(botTokenDoesNotExist.getMessage());
+        } catch (BotTokenException botTokenException) {
+            logger.error(botTokenException.getMessage());
             System.exit(1);
         }
 

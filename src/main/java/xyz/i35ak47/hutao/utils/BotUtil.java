@@ -16,15 +16,15 @@ package xyz.i35ak47.hutao.utils;
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import xyz.i35ak47.hutao.exceptions.BotTokenDoesNotExist;
+import xyz.i35ak47.hutao.exceptions.BotTokenException;
 
 public class BotUtil {
 
     public String token;
 
-    public BotUtil(String token) throws BotTokenDoesNotExist {
+    public BotUtil(String token) throws BotTokenException {
         if (!(token.length() >= 59)) {
-            throw new BotTokenDoesNotExist("The bot token usually has a length greater than or equal to 59 characters");
+            throw new BotTokenException("The bot token usually has a length greater than or equal to 59 characters");
         } else {
             this.token = token;
         }
