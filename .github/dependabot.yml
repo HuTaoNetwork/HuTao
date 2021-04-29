@@ -1,0 +1,13 @@
+version: 2
+updates:
+- package-ecosystem: gradle
+  directory: "/"
+  schedule:
+    interval: daily
+  open-pull-requests-limit: 10
+  reviewers:
+  - velosh
+  ignore:
+  - dependency-name: net.dv8tion:JDA
+    versions:
+    - 4.2.1_261
