@@ -97,7 +97,7 @@ public class BanMember extends Command {
                                 embedBuilder.addField(":exclamation: | Reason", finalReason, false);
                                 embedBuilder.setFooter(event.getMember().getUser().getAsTag(), event.getMember().getUser().getAvatarUrl());
                                 embedBuilder.setColor(randomColor);
-                                event.getChannel().sendMessage(embedBuilder.build()).queue();
+                                event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
                             },
                             error -> {
                                 if (!error.getMessage().contains("50013")) {

@@ -76,7 +76,7 @@ public class Stats extends Command {
             /*
              * Send the message
              */
-            event.getChannel().sendMessage(embedBuilder.build()).queue();
+            event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
         } else {
             event.getChannel().sendMessage("Sorry " + event.getAuthor().getAsMention() + ", this command is limited to **developers**.").queue();
         }

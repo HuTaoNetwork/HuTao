@@ -112,7 +112,7 @@ public class EvolutionX extends Command {
                         /*
                          * Send the message
                          */
-                        event.getChannel().sendMessage(embedBuilder.build()).queue();
+                        event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
                     } else {
                         response.editMessage("Oops... Failed, maybe the device don't exists in EvoX's gist.").queue();
                     }

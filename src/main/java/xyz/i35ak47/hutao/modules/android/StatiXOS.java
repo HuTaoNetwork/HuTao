@@ -110,7 +110,7 @@ public class StatiXOS extends Command {
                         /*
                          * Send the message
                          */
-                        event.getChannel().sendMessage(embedBuilder.build()).queue();
+                        event.getChannel().sendMessageEmbeds(embedBuilder.build()).queue();
                     } else {
                         response.editMessage("This device may not officially exist on the StatiXOS download site, please contact a maintainer.").queue();
                     }
